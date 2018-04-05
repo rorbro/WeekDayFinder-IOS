@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DateFind" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WeekDay_Finder_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="tfA-hI-Phl">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNc-m2-Hwx">
+                                <rect key="frame" x="130" y="495" width="155" height="30"/>
+                                <color key="backgroundColor" red="0.85098039215686272" green="0.32941176470588235" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Qtr-c0-mto"/>
+                                    <constraint firstAttribute="width" constant="155" id="XhL-cs-WZ0"/>
+                                </constraints>
+                                <state key="normal" title="Calculate WeekDay">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z0N-q3-mTO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Met-9x-UE8">
+                                <rect key="frame" x="161" y="495" width="93" height="30"/>
+                                <color key="backgroundColor" red="0.98039215686274506" green="0.84313725490196079" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="93" id="MLn-W0-AHH"/>
+                                    <constraint firstAttribute="height" constant="30" id="Mfn-dx-U6u"/>
+                                </constraints>
+                                <state key="normal" title="Start Over">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.82589678700000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startOver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sse-Yo-Hu2"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WeekDayFinder_box2.png" translatesAutoresizingMaskIntoConstraints="NO" id="Itx-yV-sFP">
+                                <rect key="frame" x="51" y="251" width="312" height="235"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="312" id="DsQ-qG-fwU"/>
+                                    <constraint firstAttribute="height" constant="235" id="yLk-7e-hgg"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hU-D6-n2T">
+                                <rect key="frame" x="64" y="265" width="287" height="206"/>
+                                <color key="backgroundColor" red="0.75294117650000003" green="0.75294117650000003" blue="0.75294117650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="206" id="529-1Q-cuC"/>
+                                    <constraint firstAttribute="width" constant="287" id="jd6-G5-emV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Month" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ek0-jt-APb">
+                                <rect key="frame" x="73" y="274" width="269" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="KfD-uO-QmN"/>
+                                    <constraint firstAttribute="width" constant="269" id="pJV-Hx-KUz"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tfA-hI-Phl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2MM-cF-15v"/>
+                            <constraint firstItem="5hU-D6-n2T" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="7D6-A5-hYk"/>
+                            <constraint firstItem="wNc-m2-Hwx" firstAttribute="top" secondItem="Itx-yV-sFP" secondAttribute="bottom" constant="9" id="8HZ-IJ-Xxr"/>
+                            <constraint firstItem="tfA-hI-Phl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="CQ0-nC-FsP"/>
+                            <constraint firstItem="ek0-jt-APb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Fue-oc-pfN"/>
+                            <constraint firstItem="Itx-yV-sFP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Gwd-gA-O2w"/>
+                            <constraint firstItem="tfA-hI-Phl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="JcW-kh-SOU"/>
+                            <constraint firstItem="Itx-yV-sFP" firstAttribute="top" secondItem="ek0-jt-APb" secondAttribute="bottom" constant="-53" id="Lyv-EM-OOl"/>
+                            <constraint firstAttribute="trailing" secondItem="tfA-hI-Phl" secondAttribute="trailing" id="O8O-rH-mm9"/>
+                            <constraint firstItem="tfA-hI-Phl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ow8-KD-BN5"/>
+                            <constraint firstItem="Met-9x-UE8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wze-4z-f7r"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tfA-hI-Phl" secondAttribute="bottom" id="afg-x2-cNQ"/>
+                            <constraint firstItem="Itx-yV-sFP" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="jpx-jA-QBI"/>
+                            <constraint firstItem="5hU-D6-n2T" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lFy-TV-gzU"/>
+                            <constraint firstItem="Met-9x-UE8" firstAttribute="top" secondItem="Itx-yV-sFP" secondAttribute="bottom" constant="9" id="mKq-FK-z2m"/>
+                            <constraint firstItem="wNc-m2-Hwx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="w06-fn-oSc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dateLabel" destination="5hU-D6-n2T" id="0Th-8y-yLe"/>
+                        <outlet property="selectionTextField" destination="ek0-jt-APb" id="NMu-ja-ekg"/>
+                        <outlet property="startOverButton" destination="Met-9x-UE8" id="oXp-gL-xvO"/>
+                        <outlet property="submitButton" destination="wNc-m2-Hwx" id="Gzc-1l-LR8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-79.200000000000003" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="WeekDayFinder_box2.png" width="274" height="206"/>
+        <image name="WeekDay_Finder_background.png" width="1080" height="1920"/>
+    </resources>
+</document>
