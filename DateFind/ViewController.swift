@@ -11,21 +11,21 @@ import UIKit
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var startOverButton: UIButton!
-    @IBAction func startOver(_ sender: Any) {
-        resetApp()
-        startOverButton.alpha = 0
-        selectionTextField.alpha = 1
-        dateLabel.text = ""
-    }
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var selectionTextField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
-    @IBAction func submitPressed(_ sender: Any) {
-        calculateWeekDay(month: month, day: day, year: year)
-    }
     
     var date = "You entered: "
-    
+    var days = [Int]()
+    var yearView: UIView?
+    var month = ""
+    var monthNum = 0
+    var day = 0
+    var year = 0
+    var selectedMonth: String?
+    var selectedDay: Int?
+    var isMonthSubmitted = false
+    var isDaySubmitted = false
     let months = ["January",
                   "February",
                   "March",
@@ -38,26 +38,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                   "October",
                   "November",
                   "December"]
+
+    @IBAction func startOver(_ sender: Any) {
+        resetApp()
+        startOverButton.alpha = 0
+        selectionTextField.alpha = 1
+        dateLabel.text = ""
+    }
     
-    var days = [Int]()
-    
-    var yearView: UIView?
-    
-    var month = ""
-    
-    var monthNum = 0
-    
-    var day = 0
-    
-    var year = 0
-    
-    var selectedMonth: String?
-    
-    var selectedDay: Int?
-    
-    var isMonthSubmitted = false
-    
-    var isDaySubmitted = false
+    @IBAction func submitPressed(_ sender: Any) {
+        calculateWeekDay(month: month, day: day, year: year)
+    }
     
     func addDaysToMonth (numToAdd: Int) {
         for i in 1...numToAdd {
@@ -67,11 +58,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-       startOverButton.alpha = 0
-         for i in 1...29 {
+        startOverButton.alpha = 0
+        for i in 1...29 {
          days.append(i)
-         }
+        }
         submitButton.alpha = 0
         createPicker()
         createToolbar()
@@ -81,7 +71,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
         startOverButton.layer.cornerRadius = 5
         startOverButton.clipsToBounds = true
-
     }
 
     func createPicker () {
@@ -95,14 +84,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             dayPicker.delegate = self
             selectionTextField.inputView = dayPicker
         }
-    
     }
     
     func createToolbar () {
     
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        
+
         let doneButton = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(ViewController.doneButtonPressed))
         
         toolbar.setItems([doneButton], animated: false)
@@ -114,62 +102,59 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         if (selectionTextField.text != "") {
         view.endEditing(true)
         
-        if (!isMonthSubmitted) {                //submit MONTH
-            let testString = String(selectedMonth!)
-
-            if let testString2 = testString {
-                month = testString2
-                
-                switch testString2 {
-                case "January", "March", "May", "July", "August", "October", "December":
-                    addDaysToMonth(numToAdd: 2)
-                case "April", "June", "September", "November":
-                    addDaysToMonth(numToAdd: 1)
-                default: break
-                }
-                date += testString2 + " "
-                dateLabel.text = date
-            }
-            isMonthSubmitted = true
-            createPicker()
-            createToolbar()
-            selectionTextField.placeholder = "Click to Select Day"
-        } else if (!isDaySubmitted) {            //MONTH submitted, submit DAY
-            let testDay = Int(selectionTextField.text!)
-            if let daytry = testDay {
-                day = daytry
-            
-            date += "\(selectedDay!)"
-         dateLabel.text = date
-            selectionTextField.inputView = yearView
-            selectionTextField.keyboardType = UIKeyboardType.numberPad
-            isDaySubmitted = true
-                selectionTextField.placeholder = "Click to Enter Year"
-            }
-        } else {                                //MONTH & DAY submitted, submit YEAR
-            let testNum = Int(selectionTextField.text!)
-            if let yeartry = testNum {
-                year = yeartry
-                if (year <= 1000000) {
-                
-                 if (((month == "February" && day == 29) && (((year-2000)%4 != 0) || ((year-2000)%100 == 0) && ((year-2000)%400 != 0)))) {
-                        dateLabel.text = "\(year) is not a leap year. Try again."
-                        resetApp()
-                 } else {
-                    date += ", " + "\(year)"
+            if (!isMonthSubmitted) {                //submit MONTH
+                let testString = String(selectedMonth!)
+                if let testString2 = testString {
+                    month = testString2
+                    switch testString2 {
+                    case "January", "March", "May", "July", "August", "October", "December":
+                        addDaysToMonth(numToAdd: 2)
+                    case "April", "June", "September", "November":
+                        addDaysToMonth(numToAdd: 1)
+                    default: break
+                    }
+                    date += testString2 + " "
                     dateLabel.text = date
-                    selectionTextField.alpha = 0
-                    submitButton.alpha = 1
                 }
+                isMonthSubmitted = true
+                createPicker()
+                createToolbar()
+                selectionTextField.placeholder = "Click to Select Day"
+            } else if (!isDaySubmitted) {            //MONTH submitted, submit DAY
+                let testDay = Int(selectionTextField.text!)
+                if let daytry = testDay {
+                    day = daytry
+                    date += "\(selectedDay!)"
+                    dateLabel.text = date
+                    selectionTextField.inputView = yearView
+                    selectionTextField.keyboardType = UIKeyboardType.numberPad
+                    isDaySubmitted = true
+                    selectionTextField.placeholder = "Click to Enter Year"
+                }
+            } else {                                //MONTH & DAY submitted, submit YEAR
+                let testNum = Int(selectionTextField.text!)
+                if let yeartry = testNum {
+                    year = yeartry
+                    if (year <= 1000000) {
+                        if (((month == "February" && day == 29) && (((year-2000)%4 != 0) || ((year-2000)%100 == 0) && ((year-2000)%400 != 0)))) {
+                            dateLabel.text = "\(year) is not a leap year. Try again."
+                            resetApp()
+                        } else {
+                            date += ", " + "\(year)"
+                            dateLabel.text = date
+                            selectionTextField.alpha = 0
+                            submitButton.alpha = 1
+                        }
+                    } else {
+                        dateLabel.text = "Enter a number between 0 and 1,000,000"
+                    }
                 } else {
-                    dateLabel.text = "Enter a smaller number for the year"
+                    dateLabel.text = "Enter a number between 0 and 1,000,000"
                 }
             }
-        }
         } else {
             if (!isMonthSubmitted) {
-            dateLabel.text = "Select a month from the list below"
-                
+                dateLabel.text = "Select a month from the list below"
             } else if (!isDaySubmitted) {
                 dateLabel.text = "Select a day from the list below"
             } else {
@@ -177,52 +162,44 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             }
         }
         selectionTextField.text = ""
-
     }
     
- func calculateLeapDays (earlyYear: Int, futureYear: Int) -> Int {
-    var leapDays = 0
-    var counter = 0
-    var leapYear = 0
-    var extraLeapDays = 0
+    func calculateLeapDays (earlyYear: Int, futureYear: Int) -> Int {
+        var leapDays = 0
+        var counter = 0
+        var leapYear = 0
+        var extraLeapDays = 0
     
-    if ((futureYear - earlyYear) < 4) {
-        counter = earlyYear
-        while (counter <= futureYear) {
-            if (counter % 4 == 0) {
-                leapDays += 1
-                if (counter % 100 == 0) && (counter % 400 != 0) {
+        if ((futureYear - earlyYear) < 4) {
+            counter = earlyYear
+            while (counter <= futureYear) {
+                if (counter % 4 == 0) {
+                    leapDays += 1
+                    if (counter % 100 == 0) && (counter % 400 != 0) {
                     leapDays -= 1
+                    }
                 }
-
+                counter += 1
             }
-            counter += 1
-        }
-    } else {
-        for i in 1...4 {
-            if ((earlyYear + i - 1) % 4 == 0) {
-                leapDays += 1
-                if ((earlyYear + i - 1) % 100 == 0) && ((earlyYear + i - 1) % 400 != 0) {
-                    leapDays -= 1
+        } else {
+            for i in 1...4 {
+                if ((earlyYear + i - 1) % 4 == 0) {
+                    leapDays += 1
+                    if ((earlyYear + i - 1) % 100 == 0) && ((earlyYear + i - 1) % 400 != 0) {
+                        leapDays -= 1
+                    }
+                    leapYear = earlyYear + i - 1
                 }
-
-                leapYear = earlyYear + i - 1
             }
+            leapDays += (futureYear - leapYear) / 4
+            extraLeapDays += leapDays/100
+            leapDays -= leapDays/25
+            leapDays += extraLeapDays
         }
-        
-        leapDays += (futureYear - leapYear) / 4
-        extraLeapDays += leapDays/100
-        leapDays -= leapDays/25
-        leapDays += extraLeapDays
-    }
-    
-    
-    return leapDays
-    
+        return leapDays
     }
 
-
- func getDaysOfMonth (month: Int) -> Int {
+    func getDaysOfMonth (month: Int) -> Int {
         switch month {
             case 1, 3, 5, 7, 8, 10, 12:
                 return 31
@@ -233,10 +210,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             default:
                 return 0
         }
-     }
-
+    }
     
- func adjustDaysOfMonth (month: Int, year: Int) -> Int {
+    func adjustDaysOfMonth (month: Int, year: Int) -> Int {
         switch month {
             case 1, 3, 5, 7, 8, 10, 12:
                 return 1
@@ -252,7 +228,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 return 0
         }
      }
-
     
     func calculateWeekDay (month: String, day: Int, year: Int) {
         submitButton.alpha = 0
@@ -313,32 +288,27 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             yearPlus = true
             leapDays += 1
 
-             if (yearDifference >= 3) {
+            if (yearDifference >= 3) {
                 leapDays += calculateLeapDays (earlyYear: (2000 + 1), futureYear: (year - 1))
-             }
+            }
             if (year % 4 == 0) && (monthNum > 2) {
                 leapDays += 1
                 if (year % 100 == 0) && (year % 400 != 0) {
                     leapDays -= 1
                 }
-
             }
-
         } else if (year < 2000){
             yearDifference = 2000 - year
             yearPlus = false
-            
-             if (yearDifference >= 3) {
+            if (yearDifference >= 3) {
                 leapDays += calculateLeapDays (earlyYear: (year + 1), futureYear: (2000 - 1))
-             }
+            }
             if (year % 4 == 0) && (monthNum < 3) {
                 leapDays += 1
                 if (year % 100 == 0) && (year % 400 != 0) {
                     leapDays -= 1
                 }
-
             }
-
         } else {
             if (monthNum > 2) {
                 leapDays += 1
@@ -346,13 +316,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
 
         //CALCULATE YEAR DAYS
-            daySum += yearDifference
-        
+        daySum += yearDifference
         dayDifference += monthNum
         
-     if (yearPlus) {
+        if (yearPlus) {
             finalDifference = addMonthDays + (day-1) + yearDifference + leapDays
-
         } else {
             finalDifference = addMonthDays + (day-1) - yearDifference - leapDays
         }
@@ -376,29 +344,19 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         default:
             break
         }
-        
         dateLabel.text = "The week day for " + month + " \(day), \(year) is " + finalDayString
         startOverButton.alpha = 1
     }
     
     func resetApp () {
-        
         selectionTextField.placeholder = "Click to Enter Month"
-    
         date = "You entered: "
-        
         month = ""
-        
         day = 0
-        
         year = 0
-        
         selectedMonth = ""
-        
         selectedDay = 0
-        
         isMonthSubmitted = false
-        
         isDaySubmitted = false
         
         if days.count > 29 {
@@ -412,33 +370,33 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         createToolbar()
     }
     
-        func numberOfComponents (in pickerView:UIPickerView) -> Int {
-            return 1
-        }
+    func numberOfComponents (in pickerView:UIPickerView) -> Int {
+        return 1
+    }
         
-        func pickerView (_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if (!isMonthSubmitted) {
-                return months.count
-            } else {
-                return days.count
-            }
+    func pickerView (_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if (!isMonthSubmitted) {
+            return months.count
+        } else {
+            return days.count
         }
+    }
         
-        func pickerView (_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if (!isMonthSubmitted) {
-                return months[row]
-            } else {
-                return "\(days[row])"
-            }
+    func pickerView (_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if (!isMonthSubmitted) {
+            return months[row]
+        } else {
+            return "\(days[row])"
         }
+    }
         
-        func pickerView (_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            if (!isMonthSubmitted) {
-                selectedMonth = months[row]
-                selectionTextField.text = selectedMonth
-            } else {
-                selectedDay = days[row]
-                selectionTextField.text = "\(selectedDay!)"
+    func pickerView (_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if (!isMonthSubmitted) {
+            selectedMonth = months[row]
+            selectionTextField.text = selectedMonth
+        } else {
+            selectedDay = days[row]
+            selectionTextField.text = "\(selectedDay!)"
         }
     
     }
@@ -447,7 +405,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 
